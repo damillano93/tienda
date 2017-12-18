@@ -1,1 +1,1 @@
-angular.module('scotchTodo', ['todoController', 'facturaService']);
+angular.module('scotchTodo', ['facturasController', 'facturaService']);

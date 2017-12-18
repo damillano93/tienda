@@ -1,4 +1,4 @@
-angular.module('todoController', [])
+angular.module('facturasController', [])
 
 	// inject the Todo service factory into our controller
 	.controller('mainController', ['$scope','$http','Facturas', function($scope, $http, Facturas) {
