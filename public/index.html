@@ -1,0 +1,374 @@
+<!doctype html>
+
+<!-- ASSIGN OUR ANGULAR MODULE -->
+<html ng-app="scotchTodo">
+<head>
+	<!-- META -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1"><!-- Optimize mobile viewport -->
+
+	<title>Tienda de barrio</title>
+
+	<!-- SCROLLS -->
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"><!-- load bootstrap -->
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<style>
+		html 					{ overflow-y:scroll; }
+		body 					{ padding-top:50px; }
+		#todo-list 				{ margin-bottom:30px; }
+		#todo-form 	 			{ margin-bottom:50px; }
+	</style>
+
+	<!-- SPELLS -->
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular.min.js"></script><!-- load angular -->
+
+	<script src="js/controllers/main.js"></script> <!-- load up our controller -->
+	<script src="js/services/facturas.js"></script> <!-- load our todo service -->
+	<script src="js/core.js"></script> <!-- load our main application -->
+
+</head>
+<!-- SET THE CONTROLLER -->
+<body ng-controller="mainController">
+	<div class="container">
+
+		
+	
+			<div class="panel-group" id="accordion">
+					<div class="panel panel-default">
+					  <div class="panel-heading">
+						<h4 class="panel-title">
+						  <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">
+								Clientes <span class="label label-info">{{ clientes.length }}</span></a>
+						</h4>
+					  </div>
+					  <div id="collapse1" class="panel-collapse collapse in">
+						<div class="panel-body">
+							
+
+
+<!-- HEADER AND TODO COUNT -->
+<div class="jumbotron text-center">
+		<h1>Numero de Clientes <span class="label label-info">{{ clientes.length }}</span></h1>
+	</div>
+
+	<div id="todo-form" class="row">
+			<div class="col-sm-8 col-sm-offset-2 text-center">
+				<form>
+					<div class="form-group">
+
+						<!-- BIND THIS VALUE TO newFactura.text IN ANGULAR -->
+						<select class="form-control input-lg text-center"  ng-model="newCliente.tipo">
+								<option ng-repeat="pruebas in prueba" >{{pruebas}}</option>	   
+						</select>
+						<br>
+						<input type="number" class="form-control input-lg text-center" placeholder="Numero de documento" ng-model="newCliente.Documento">
+						<br>
+						<input type="text" class="form-control input-lg text-center" placeholder="Primer nombre" ng-model="newCliente.Nombre.nombre1">
+						<br>
+						<input type="text" class="form-control input-lg text-center" placeholder="Segundo nombre" ng-model="newCliente.Nombre.nombre2">
+						<br>
+						<input type="text" class="form-control input-lg text-center" placeholder="Primer apellido" ng-model="newCliente.Nombre.apellido1">
+						<br>
+						<input type="text" class="form-control input-lg text-center" placeholder="Segundo apellido" ng-model="newCliente.Nombre.apellido2">
+						<br>
+						<input type="number" class="form-control input-lg text-center" placeholder="telefono" ng-model="newCliente.Contacto.telefono">
+						<br>
+						<input type="number" class="form-control input-lg text-center" placeholder="celular" ng-model="newCliente.Contacto.celular">
+						<br>
+						<input type="email" class="form-control input-lg text-center" placeholder="Correo electronico" ng-model="newCliente.Contacto.email">
+						<br>
+					</div>
+					 
+					<!-- createToDo() WILL CREATE NEW TODOS -->
+					<button type="submit" class="btn btn-primary btn-lg" ng-click="createCliente()" ng-if="!editando">Agregar </button>
+					<button type="submit" class="btn btn-warning btn-lg" ng-click="putCliente()" ng-if="editando">Editar </button>
+				</form>
+			</div>
+		</div>
+		
+		{{newCliente}}
+		<div id="todo-list" class="row">
+			<div class="col-sm-4 col-sm-offset-4">
+
+				
+
+				<!-- LOOP OVER THE TODOS IN $scope.facturas -->
+			
+
+					<table  class="table" >
+						<thead>
+						  <tr>
+								<th>Accion</th>
+							<th>Nombre</th>
+							<th>Apellido</th>
+							<th>Identificacion</th>
+						  </tr>
+						</thead>
+						<tbody ng-repeat="todo in clientes">
+								<tr>
+									  <th><button type="button" class="btn btn-danger btn-xs" ng-click="deleteCliente(todo._id)">Borrar</button><button type="button" class="btn btn-success btn-xs" ng-click="cargaCliente($index)">Editar</button></th>
+								  <th>{{ todo.Nombre.nombre1 }}</th>
+								  <th>{{ todo.Nombre.apellido1 }}</th>
+								  <th>{{ todo.Documento }}</th>
+								</tr>
+							  </tbody>
+					</table>
+				
+
+				<p class="text-center" ng-show="loading">
+					<span class="fa fa-spinner fa-spin fa-3x"></span>
+				</p>
+
+			</div>
+		</div>
+
+
+
+
+						</div>
+					  </div>
+					</div>
+					<div class="panel panel-default">
+					  <div class="panel-heading">
+						<h4 class="panel-title">
+						  <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">
+								Facturas <span class="label label-info">{{ facturas.length }}</span></a>
+						</h4>
+					  </div>
+					  <div id="collapse2" class="panel-collapse collapse">
+						<div class="panel-body">
+						
+							
+
+<!-- HEADER AND TODO COUNT -->
+<div class="jumbotron text-center">
+		<h1>Numero de facturas <span class="label label-info">{{ facturas.length }}</span></h1>
+	</div>
+
+	<!-- TODO LIST -->
+	
+
+	<!-- FORM TO CREATE TODOS -->
+	<div id="todo-form" class="row">
+		<div class="col-sm-4 col-sm-offset-2 text-center">
+			<form>
+				<div class="form-group">
+
+					<!-- BIND THIS VALUE TO newFactura.text IN ANGULAR -->
+					<label for="sel1"> Id cliente:</label>
+					<select class="form-control input-lg text-center"  ng-model="newFactura.Cliente">
+							<option value= {{pruebas._id}} ng-repeat="pruebas in clientes" >{{pruebas.Documento}}</option>
+								   
+					</select>
+					<br>
+					<table  class="table" >
+						<thead>
+							<tr>
+								<th>Accion</th>
+							<th>Nombre</th>
+							<th>Valor unidad</th>
+							<th>Cantidad</th>
+	
+							
+							</tr>
+						</thead>
+						<tbody ng-repeat="todo in productos">
+								<tr>
+										<th><button type="button" class="btn btn-success btn-xs" ng-click="agregarProducto(todo)">Agregar</button></th>
+									<th>{{ todo.Nombre }}</th>
+									<th>{{ todo.Valoru }}</th>
+									<th><input type="number" class="form-control " placeholder="1" ng-model="newFactura.cantidad">
+										</th>
+	
+								</tbody>
+					</table>
+					<br>
+				
+				</div>
+				 
+				<!-- createToDo() WILL CREATE NEW TODOS -->
+				<button type="submit" class="btn btn-primary btn-lg" ng-click="createTodo()">Agregar</button>
+			</form>
+		</div>
+		<div class="col-sm-4 text-center">
+			<h3>Detalle Factura </h3>
+				<label for="sel1"> Cliente:</label>
+				<select class="form-control input-lg text-center"  ng-model="newFactura.Cliente" disabled>
+						<option value= {{pruebas._id}} ng-repeat="pruebas in clientes" >{{pruebas.Nombre.nombre1}}</option>
+							   
+				</select>
+				<select class="form-control input-lg text-center"  ng-model="newFactura.Cliente" disabled>
+						<option value= {{pruebas._id}} ng-repeat="pruebas in clientes" >{{pruebas.Nombre.apellido1}}</option>
+							   
+				</select>
+				<br>
+				<table  class="table" >
+					<thead>
+					  <tr>
+							<th>Producto</th>
+							<th>Precio</th>
+						<th>Cantidad</th>
+            <th>Total</th>
+						
+						
+					  </tr>
+					</thead>
+					<tbody ng-repeat="todo in misproductos">
+							<tr>
+								
+								<th>{{todo.Nombre}}</th>
+								<th>{{todo.Valoru}}</th>
+								<th>{{todo.Cantidad}}</th>
+							  <th>{{todo.Valort}}</th>
+							</tr>
+							</tbody>
+							<tbody >
+								<tr>
+									
+									<th>-</th>
+									<th>-</th>
+									<th>Gran total</th>
+									<th>{{newFactura.Total}}</th>
+								</tr>
+								</tbody>
+				</table>
+ 
+				<br>
+				<p>
+				<strong ng-if="newFactura.Cliente">Cliente: </strong>
+				{{newFactura.Cliente.Nombre.nombre1}}    				{{newFactura.Cliente.Nombre.apellido1}}
+				</p>
+			</div>
+	</div>
+	
+	<div id="todo-list" class="row">
+		<div class="col-sm-4 col-sm-offset-4">
+
+			
+
+			<!-- LOOP OVER THE TODOS IN $scope.facturas -->
+		
+
+
+
+				<table  class="table" >
+					<thead>
+					  <tr>
+							<th> &nbsp; Accion &nbsp; </th>
+						<th>Id factura</th>
+            <th>Total</th>
+						
+						
+					  </tr>
+					</thead>
+					<tbody ng-repeat="todo in facturas">
+							<tr>
+								  <th><button type="button" class="btn btn-danger btn-xs" ng-click="deleteTodo(todo._id)">Borrar</button><button type="button" class="btn btn-info btn-xs" ng-click="getonefactura(todo._id)">Ver</button></th>
+							  <th>{{ todo._id }}</th>
+								<th>{{ todo.Total }}</th>
+							
+							</tr>
+						  </tbody>
+				</table>
+
+			<p class="text-center" ng-show="loading">
+				<span class="fa fa-spinner fa-spin fa-3x"></span>
+			</p>
+
+		</div>
+	</div>
+
+
+
+						</div>
+					  </div>
+					</div>
+					<div class="panel panel-default">
+					  <div class="panel-heading">
+						<h4 class="panel-title">
+						  <a data-toggle="collapse" data-parent="#accordion" href="#collapse3">
+								Productos <span class="label label-info">{{ productos.length }}</span></a>
+						</h4>
+					  </div>
+					  <div id="collapse3" class="panel-collapse collapse">
+						<div class="panel-body">
+								
+
+
+<!-- HEADER AND TODO COUNT -->
+<div class="jumbotron text-center">
+		<h1>Numero de productos <span class="label label-info">{{ productos.length }}</span></h1>
+	</div>
+
+	<!-- TODO LIST -->
+	
+
+	<!-- FORM TO CREATE TODOS -->
+	<div id="todo-form" class="row">
+		<div class="col-sm-8 col-sm-offset-2 text-center">
+			<form>
+				<div class="form-group">
+
+					<!-- BIND THIS VALUE TO newFactura.text IN ANGULAR -->
+					<input type="text" class="form-control input-lg text-center" placeholder="Nombre producto" ng-model="newProducto.Nombre">
+					<br>
+					<input type="number" class="form-control input-lg text-center" placeholder="Plu producto" ng-model="newProducto.Plu">
+					<br>
+					<input type="number" class="form-control input-lg text-center" placeholder="Valor" ng-model="newProducto.Valoru">
+					<br>
+
+				</div>
+				 
+				<!-- createToDo() WILL CREATE NEW TODOS -->
+				<button type="submit" class="btn btn-primary btn-lg" ng-click="createProducto()" ng-if="!editando2">Agregar </button>
+				<button type="submit" class="btn btn-warning btn-lg" ng-click="putProducto()" ng-if="editando2" >Editar </button>
+			</form>
+		</div>
+	</div>
+
+
+	<div id="todo-list" class="row">
+		<div class="col-sm-4 col-sm-offset-4">
+
+			
+
+			<!-- LOOP OVER THE TODOS IN $scope.facturas -->
+		
+
+				<table  class="table" >
+					<thead>
+					  <tr>
+							<th>Accion</th>
+						<th>Producto </th>
+						<th>Plu </th>
+						<th>Valor </th>
+					  </tr>
+					</thead>
+					<tbody ng-repeat="todo in productos">
+							<tr>
+								  <th><button type="button" class="btn btn-danger btn-xs" ng-click="deleteProducto(todo._id)">Borrar</button><button type="button" class="btn btn-warning btn-xs" ng-click="cargaProducto($index)">Editar</button></th>
+							  <th>{{ todo.Nombre }}</th>
+							  <th>{{ todo.Plu }}</th>
+								<th>{{ todo.Valoru }}</th>
+							  
+							</tr>
+						  </tbody>
+				</table>
+
+
+
+					</div>
+					  </div>
+					</div>
+				  </div>		
+		<div class="text-center text-muted">
+			<p>David Millan 2017.</p>
+			
+		</div>
+
+	</div>
+
+</body>
+</html>
