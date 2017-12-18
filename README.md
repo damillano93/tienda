@@ -9,7 +9,7 @@ esta es una aplicacion RESTful API. hecha con (MEAN) Mongo Express Angular Node.
 - [Node y npm](http://nodejs.org)
 - MongoDB: la url de la base de datos se configura en  `config/database.js`
 
-## Installation
+## Instalacion
 
 1. Clone el repositorio: `git clone https://github.com/damillano93/tienda.git`
 2. Instale los paquetes: `npm install`
